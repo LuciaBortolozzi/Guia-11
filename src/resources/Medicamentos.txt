@@ -1,0 +1,31 @@
+0000000001 ABACAVIR/LAMIVUDINA                                               ACCORD
+0000000002 ACARBOSA                                                      FARMALIDER
+0000000003 ACETILCISTEINA                                               FARMASIERRA
+0000000004 ALPRAZOLAM                                                        TARBIS
+0000000005 AMOXICILINA/ACIDO CLAVULANICO                               PENSA PHARMA
+0000000006 BICALUTAMIDA                                                      ACCORD
+0000000007 BROMAZEPAM                                                   KERN PHARMA
+0000000008 CAPTOPRIL                                                         TARBIS
+0000000009 CEFEPIMA                                                          ACCORD
+0000000010 CONDROITIN SULFATO                                           KERN PHARMA
+0000000011 DESLORATADINA                                                  AUROVITAS
+0000000012 DUTASTERIDA/TAMSULOSINA                                            STADA
+0000000013 EBASTINA                                                      ALPROFARMA
+0000000014 ESCITALOPRAM                                           VISO FARMACEUTICA
+0000000015 EXEMESTANO                                                         STADA
+0000000016 LAMIVUDINA                                                   TEVA PHARMA
+0000000017 LERCANIDIPINO                                                      STADA
+0000000018 LINEZOLID                                                   ACCORDPHARMA
+0000000019 PACLITAXEL                                                          TEVA
+0000000020 PRAMIPEXOL                                                        TARBIS
+0000000021 PROPRANOLOL                                                       ACCORD
+0000000022 TOLTERODINA NEO                                               RATIOPHARM
+0000000023 TRAMADOL/PARACETAMOL                                           LABOPHARM
+0000000024 TRIMETAZIDINA                                                 RATIOPHARM
+0000000025 VACUNA GRIPE PANDEMICA H5N1                                       BAXTER
+0000000026 VALACICLOVIR                                                 KERN PHARMA
+0000000027 VALSARTAN                                                     RATIOPHARM
+0000000028 VENLAFAXINA                                                  KERN PHARMA
+0000000029 VORICONAZOL                                                FARMAPROJECTS
+0000000030 ZIDOVUDINA                                                        ACCORD
+0000000031 ZONISAMIDA                                                      BLUEFISH

@@ -1,0 +1,23 @@
+ C  01    1429               NUÑEZ
+ C  01    1430           CABALLITO
+ C  01    1431              FLORES
+ C  01    1432            BELGRANO
+ C  01    1433            RECOLETA
+ B  02    1664      MANUEL ALBERTI
+ B  02    1665               PILAR
+ B  02    1666              MORENO
+ B  02    1667       VICENTE LOPEZ
+ B  02    1668          SAN ISIDRO
+ K  03    1566         SANTA MARIA
+ K  03    1567               BELEN
+ K  03    1568               POMAN
+ K  03    1569             EL ALTO
+ U  04    1486              TELSEN
+ U  04    1485           SARMIENTO
+ U  04    1487              GASTRE
+ U  04    1488              RAWSON
+ U  04    1489           ESCALANTE
+ H  05    1548             BERMEJO
+ H  05    1549           CHACABUCO
+ H  05    1550         SAN LORENZO
+ H  05    1551               MAIPU
