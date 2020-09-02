@@ -9,5 +9,23 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="mssql-jdbc-8.4.0.jre8" level="project" />
     <orderEntry type="library" name="javax.json-1.0" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://D:/OneDrive/USAL/Programación Avanzada/JARs/javax.json-1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://D:/OneDrive/USAL/Programación Avanzada/JARs/sqljdbc_8.4/enu/mssql-jdbc-8.4.0.jre8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

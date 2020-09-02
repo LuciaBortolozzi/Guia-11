@@ -21,12 +21,16 @@ public class Conexion {
 
     public static Connection getConnection() throws SQLException {
 
-        boolean lu = true;
+        boolean lu = false;
 
         if (lu) {
             server = "jdbc:sqlserver://DESKTOP-LU;databaseName=Programacion_Avanzada";
             user = "sa";
             password = "prog.av";
+        }else {
+            server = "jdbc:sqlserver://DESKTOP-FLOR\\SQLEXPRESS:1433;databaseName=master";
+            user = "user";
+            password = "1234";
         }
 
         return DriverManager.getConnection(server, user, password);
