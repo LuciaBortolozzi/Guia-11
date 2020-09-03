@@ -31,6 +31,7 @@ public class Conexion {
             server = "jdbc:sqlserver://DESKTOP-FLOR\\SQLEXPRESS:1433;databaseName=master";
             user = "user";
             password = "1234";
+
         }
 
         return DriverManager.getConnection(server, user, password);
