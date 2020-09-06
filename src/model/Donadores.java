@@ -11,6 +11,10 @@ public class Donadores extends Personas {
 
     public Donadores(){}
 
+    public Donadores(String nombre, String apellido, int dni, Localidades localidad, Calendar fechaNac, char sexo, TiposSangre tipoSangre) {
+        super(nombre, apellido, dni, localidad, fechaNac, sexo, tipoSangre);
+    }
+
     public Donadores(boolean donaSangre, boolean donaPlaquetas, boolean donaPlasma) {
         this.donaSangre = donaSangre;
         this.donaPlaquetas = donaPlaquetas;

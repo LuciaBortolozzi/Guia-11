@@ -21,7 +21,7 @@ public class Conexion {
 
     public static Connection getConnection() throws SQLException {
 
-        boolean lu = false;
+        boolean lu = true;
 
         if (lu) {
             server = "jdbc:sqlserver://DESKTOP-LU;databaseName=Programacion_Avanzada";

@@ -10,16 +10,19 @@ import java.util.TreeSet;
 
 public class Controlador {
 
-    static ArrayList<Provincias> provincias = ProvinciasTXT.bajarProvinciasTXT();
-    static ArrayList<Localidades> localidades = LocalidadesTXT.bajarLocalidadesTXT(provincias);
-    static ArrayList<TiposSangre> tiposSangres = TiposSangreTXT.bajarTiposSangreTXT();
-    static ArrayList<Medicamentos> medicamentos = MedicamentosTXT.bajarMedicamentosTXT();
+    static ArrayList<Provincias> provincias = ProvinciasDB.selectProvincias();
+    static ArrayList<Localidades> localidades = LocalidadesDB.selectLocalidades(provincias);
+    static ArrayList<TiposSangre> tiposSangres = TiposSangreDB.selectTiposSangre();
+    static ArrayList<Medicamentos> medicamentos = MedicamentosDB.selectMedicamentos();
 
-    static TreeSet<Personas> personasAux = PersonasTXT.bajarPersonasTXT(localidades, tiposSangres);
+    static TreeSet<Personas> personasAux = PersonasDB.selectPersonas(localidades, tiposSangres);
+    static TreeSet<Personas> personasConDonadores = PersonasDB.selectDonadores(personasAux);
+    static TreeSet<Personas> personasConPacientes = PersonasDB.selectPacientes(personasConDonadores, medicamentos);
 
-    static TreeSet<Personas> personasExt = PersonasTXT.bajarDonadoresExtraccionesTXT(personasAux);
 
-    static TreeSet<Personas> personas = MedicamentosTXT.bajarPacientesMedicamentosTXT(personasExt, medicamentos);
+/*    static TreeSet<Personas> personasExt = PersonasTXT.bajarDonadoresExtraccionesTXT(personasAux);
+
+    static TreeSet<Personas> personas = MedicamentosTXT.bajarPacientesMedicamentosTXT(personasExt, medicamentos);*/
 
     public static Localidades buscarLocalidad(String localidadST) {
         Localidades localidad = null;

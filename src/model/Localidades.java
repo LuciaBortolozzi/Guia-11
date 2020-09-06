@@ -1,6 +1,7 @@
 package model;
 
 public class Localidades implements Comparable<Localidades>{
+    private int idLocalidad;
     private String nombreLoc;
     private String codigoPostal;
     private Provincias provincia;
@@ -8,10 +9,19 @@ public class Localidades implements Comparable<Localidades>{
     public Localidades() {
     }
 
-    public Localidades(String nombreLoc, String codigoPostal, Provincias provincia) {
+    public Localidades(int idLocalidad, String nombreLoc, String codigoPostal, Provincias provincia) {
+        this.idLocalidad = idLocalidad;
         this.nombreLoc = nombreLoc;
         this.codigoPostal = codigoPostal;
         this.provincia = provincia;
+    }
+
+    public int getIdLocalidad() {
+        return idLocalidad;
+    }
+
+    public void setIdLocalidad(int idLocalidad) {
+        this.idLocalidad = idLocalidad;
     }
 
     public String getNombreLoc() {
