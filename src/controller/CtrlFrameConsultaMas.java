@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.TreeSet;
 
-import static controller.Controlador.personas;
+import static controller.Controlador.personasConPacientes;
 
 public class CtrlFrameConsultaMas implements ActionListener {
 
@@ -38,7 +38,7 @@ public class CtrlFrameConsultaMas implements ActionListener {
             }
 
             vista.getTextResultados().setText(String.valueOf(personasAux.size()));
-            vista.getTextTotales().setText(String.valueOf(Controlador.personas.size()));
+            vista.getTextTotales().setText(String.valueOf(personasConPacientes.size()));
 
         }
     }
@@ -58,10 +58,10 @@ public class CtrlFrameConsultaMas implements ActionListener {
         }
 
         if (provincia.equals("") && tipoDeSangre.equals("")) {
-            return personas;
+            return personasConPacientes;
         }
 
-        for (Personas p : personas) {
+        for (Personas p : personasConPacientes) {
 
             String tipo = p.getTipoSangre().getGrupo() + "RH" + p.getTipoSangre().getFactor();
             String prov = p.getLocalidad().getProvincia().getNombreProv();

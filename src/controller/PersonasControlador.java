@@ -122,17 +122,17 @@ public class PersonasControlador {
 
                 if (vista.esIngreso()) {
 
-                    personas.add(persona);
+                    personasConPacientes.add(persona);
                     JOptionPane.showMessageDialog(null, "La persona se ingreso correctamente");
                     PersonasTXT.grabarPersonaTXT(persona);
-                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personas);
+                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personasConPacientes);
 
                 } else {
 
                     PersonasControlador.modificarPersona(persona);
                     JOptionPane.showMessageDialog(null, "La persona se modifico correctamente");
-                    PersonasTXT.grabarSetPersonasTXT(personas);
-                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personas);
+                    PersonasTXT.grabarSetPersonasTXT(personasConPacientes);
+                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personasConPacientes);
 
                 }
 
@@ -172,17 +172,17 @@ public class PersonasControlador {
 
                 if (vista.esIngreso()) {
 
-                    personas.add(persona);
+                    personasConPacientes.add(persona);
                     JOptionPane.showMessageDialog(null, "La persona se ingreso correctamente");
                     PersonasTXT.grabarPersonaTXT(persona);
-                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personas);
+                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personasConPacientes);
 
                 } else {
 
                     PersonasControlador.modificarPersona(persona);
                     JOptionPane.showMessageDialog(null, "La persona se modifico correctamente");
-                    PersonasTXT.grabarSetPersonasTXT(personas);
-                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personas);
+                    PersonasTXT.grabarSetPersonasTXT(personasConPacientes);
+                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personasConPacientes);
 
                 }
 
@@ -198,7 +198,7 @@ public class PersonasControlador {
         boolean encontrada = false;
 
         Personas personaAux;
-        Iterator<Personas> per = personas.iterator();
+        Iterator<Personas> per = personasConPacientes.iterator();
         while (per.hasNext()) {
             personaAux = per.next();
 
@@ -238,13 +238,13 @@ public class PersonasControlador {
         boolean encontrada = false;
 
         Personas personaAux;
-        Iterator<Personas> per = personas.iterator();
+        Iterator<Personas> per = personasConPacientes.iterator();
         while (per.hasNext()) {
             personaAux = per.next();
 
             if (personaAux.getDni() == dni) {
                 encontrada = true;
-                personas.remove(personaAux);
+                personasConPacientes.remove(personaAux);
                 break;
             }
         }

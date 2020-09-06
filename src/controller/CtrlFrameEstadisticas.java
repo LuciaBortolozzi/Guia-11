@@ -8,7 +8,7 @@ import view.FrameEstadisticas;
 import java.util.Calendar;
 import java.util.TreeSet;
 
-import static controller.Controlador.personas;
+import static controller.Controlador.personasConPacientes;
 
 public class CtrlFrameEstadisticas {
 
@@ -62,7 +62,7 @@ public class CtrlFrameEstadisticas {
 
         String provincia = "CABA";
 
-        for (Personas p : personas) {
+        for (Personas p : personasConPacientes) {
 
             if (p.getLocalidad().getProvincia().getNombreProv().equals(provincia)) {
 
@@ -80,7 +80,7 @@ public class CtrlFrameEstadisticas {
         Calendar seisMesesAntes = Calendar.getInstance();
         Validaciones.seisMesesAntes(seisMesesAntes);
 
-        for (Personas p : personas) {
+        for (Personas p : personasConPacientes) {
 
             if (p instanceof Donadores) {
                 if (((Donadores) p).isDonaPlaquetas() && ((Donadores) p).isDonaSangre() && ((Donadores) p).isDonaPlasma()) {
@@ -101,7 +101,7 @@ public class CtrlFrameEstadisticas {
     public TreeSet<Personas> consultaPorParametro() {
 
         TreeSet<Personas> personasAux = new TreeSet<Personas>();
-        for (Personas p : personas) {
+        for (Personas p : personasConPacientes) {
 
             if (p instanceof Donadores) {
                 for (int i = 0; i < ((Donadores) p).getExtracciones().size(); i++) {

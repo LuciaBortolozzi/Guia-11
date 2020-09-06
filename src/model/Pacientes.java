@@ -10,6 +10,10 @@ public class Pacientes extends Personas {
 
     public Pacientes(){}
 
+    public Pacientes(String nombre, String apellido, int dni, Localidades localidad, Calendar fechaNac, char sexo, TiposSangre tipoSangre) {
+        super(nombre, apellido, dni, localidad, fechaNac, sexo, tipoSangre);
+    }
+
     public Pacientes(String enfermedad, ArrayList<Medicamentos> medicamentos, Calendar inicioTratamiento) {
         this.enfermedad = enfermedad;
         this.medicamentos = medicamentos;
