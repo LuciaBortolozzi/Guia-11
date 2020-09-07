@@ -196,4 +196,31 @@ public class PersonasDB {
         }
         return medsAux;
     }
+
+    public static void insertPersonas(Personas persona) {
+
+        try {
+
+            int tipoPersona = 0;
+            if (persona instanceof Donadores) {
+
+                tipoPersona = 1;
+            }
+
+            for(Medicamentos med : ((Pacientes) persona).getMedicamentos()){
+
+                Connection conn = Conexion.getConnection();
+                Statement stmt = conn.createStatement();
+                stmt.executeQuery("INSERT INTO Personas VALUES (" + persona.getDni() + ",'" + persona.getNombre() + "','" + persona.getApellido()
+                        + "','" + persona.getSexo() + "','" + persona.getFechaNac().get(Calendar.YEAR) + + persona.getFechaNac().get(Calendar.MONTH)
+                        + persona.getFechaNac().get(Calendar.DAY_OF_MONTH) + "'," + persona.getLocalidad().getIdLocalidad() +
+                        "," + persona.getTipoSangre().getId() + "," + tipoPersona + ")");
+                conn.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
