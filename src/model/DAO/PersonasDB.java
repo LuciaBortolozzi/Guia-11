@@ -212,15 +212,52 @@ public class PersonasDB {
                 Connection conn = Conexion.getConnection();
                 Statement stmt = conn.createStatement();
                 stmt.executeQuery("INSERT INTO Personas VALUES (" + persona.getDni() + ",'" + persona.getNombre() + "','" + persona.getApellido()
-                        + "','" + persona.getSexo() + "','" + persona.getFechaNac().get(Calendar.YEAR) + + persona.getFechaNac().get(Calendar.MONTH)
+                        + "','" + persona.getSexo() + "','" + persona.getFechaNac().get(Calendar.YEAR) + (persona.getFechaNac().get(Calendar.MONTH)+1)
                         + persona.getFechaNac().get(Calendar.DAY_OF_MONTH) + "'," + persona.getLocalidad().getIdLocalidad() +
                         "," + persona.getTipoSangre().getId() + "," + tipoPersona + ")");
                 conn.close();
             }
 
+            if (persona instanceof Donadores) {
+
+                insertDonadores(persona);
+
+            }else{
+
+                insertPacientes(persona);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void insertDonadores(Personas persona) throws SQLException {
+
+        int donaSangre = 0;
+        int donaPlasma = 0;
+        int donaPlaquetas = 0;
+        if(((Donadores)persona).isDonaSangre()){ donaSangre=1; }
+        if(((Donadores)persona).isDonaPlasma()){ donaPlasma=1; }
+        if(((Donadores)persona).isDonaPlaquetas()){ donaPlaquetas=1; }
+
+        Connection conn = Conexion.getConnection();
+        Statement stmt = conn.createStatement();
+        stmt.executeQuery("INSERT INTO Donadores VALUES (" + persona.getDni() + "," + donaSangre + "," + donaPlasma
+                + "," + donaPlaquetas + ")");
+        conn.close();
+
+    }
+
+    public static void insertPacientes(Personas persona) throws SQLException {
+
+        Connection conn = Conexion.getConnection();
+        Statement stmt = conn.createStatement();
+        stmt.executeQuery("INSERT INTO Pacientes VALUES (" + persona.getDni() + ",'" + ((Pacientes) persona).getEnfermedad() + "','"
+                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.YEAR) + (((Pacientes) persona).getInicioTratamiento().get(Calendar.MONTH)+1)
+                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.DAY_OF_MONTH) + "')");
+        conn.close();
+
     }
 
 }
