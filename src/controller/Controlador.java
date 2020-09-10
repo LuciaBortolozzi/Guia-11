@@ -15,14 +15,9 @@ public class Controlador {
     static ArrayList<TiposSangre> tiposSangres = TiposSangreDB.selectTiposSangre();
     static ArrayList<Medicamentos> medicamentos = MedicamentosDB.selectMedicamentos();
 
-    static TreeSet<Personas> personasAux = PersonasDB.selectPersonas(localidades, tiposSangres);
+    static TreeSet<Personas> personasAux = PersonasDB.selectPersonas(provincias, localidades, tiposSangres);
     static TreeSet<Personas> personasConDonadores = PersonasDB.selectDonadores(personasAux);
     static TreeSet<Personas> personasConPacientes = PersonasDB.selectPacientes(personasConDonadores, medicamentos);
-
-
-/*    static TreeSet<Personas> personasExt = PersonasTXT.bajarDonadoresExtraccionesTXT(personasAux);
-
-    static TreeSet<Personas> personas = MedicamentosTXT.bajarPacientesMedicamentosTXT(personasExt, medicamentos);*/
 
     public static Localidades buscarLocalidad(String localidadST) {
         Localidades localidad = null;
@@ -35,7 +30,7 @@ public class Controlador {
         return localidad;
     }
 
-    public static TiposSangre buscarTipoSangre(String tipoSangreST) {
+    public static TiposSangre buscarTipoSangreST(String tipoSangreST) {
         TiposSangre tiposSangre = null;
 
         for (TiposSangre tipo : tiposSangres) {
@@ -100,5 +95,35 @@ public class Controlador {
             }
         }
         return medicamento;
+    }
+
+    public static Provincias buscarProvincia(ArrayList<Provincias> provincias, int provincia) {
+        for (Provincias prov : provincias) {
+            if (prov.getIdProvincia() == provincia) {
+                return prov;
+            }
+        }
+        return null;
+    }
+
+    public static Localidades buscarLocalidad(ArrayList<Provincias> provincias, int provincia, ArrayList<Localidades> localidades, int localidad) {
+        Provincias prov = buscarProvincia(provincias, provincia);
+        if (prov != null) {
+            for (Localidades loc : localidades) {
+                if (loc.getIdLocalidad() == localidad && loc.getProvincia().getIdProvincia() == prov.getIdProvincia()) {
+                    return loc;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static TiposSangre buscarTipoSangre(ArrayList<TiposSangre> tiposSangres, int tipoSangre) {
+        for (TiposSangre tipo : tiposSangres) {
+            if (tipo.getId() == tipoSangre) {
+                return tipo;
+            }
+        }
+        return null;
     }
 }
