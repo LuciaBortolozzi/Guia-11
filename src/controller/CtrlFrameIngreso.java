@@ -1,8 +1,7 @@
 package controller;
 
 import model.*;
-import model.DAO.MedicamentosTXT;
-import model.DAO.PersonasTXT;
+import model.DAO.PersonasDB;
 import view.FrameIngreso;
 
 import javax.swing.*;
@@ -53,9 +52,9 @@ public class CtrlFrameIngreso implements ActionListener, ItemListener {
                     "Confirmación", JOptionPane.YES_NO_OPTION);
             if (opcion == JOptionPane.YES_OPTION) {
 
+                Personas persona = buscarPersona(dni);
+                PersonasDB.deletePersona(persona);
                 eliminarPersona(dni);
-                PersonasTXT.grabarSetPersonasTXT(personasConPacientes);
-                MedicamentosTXT.grabarPacientesMedicamentosTXT(personasConPacientes);
                 JOptionPane.showMessageDialog(null, "La persona se elimino correctamente");
             }
             vista.limpiar(false);
@@ -63,7 +62,6 @@ public class CtrlFrameIngreso implements ActionListener, ItemListener {
     }
 
     public void setVista(FrameIngreso vista) {
-
 
         vista.getComboProvincias().addItem("Seleccione una Provincia");
         vista.getComboLocalidades().addItem("Seleccione una localidad");

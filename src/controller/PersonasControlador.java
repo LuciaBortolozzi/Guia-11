@@ -1,8 +1,7 @@
 package controller;
 
 import model.*;
-import model.DAO.MedicamentosTXT;
-import model.DAO.PersonasTXT;
+import model.DAO.PersonasDB;
 import view.FrameIngreso;
 
 import javax.swing.*;
@@ -107,7 +106,7 @@ public class PersonasControlador {
             Localidades localidad = Controlador.buscarLocalidad(localidadST);
 
             String tipoSangreST = vista.getComboTiposSangre().getSelectedItem().toString();
-            TiposSangre tipoSangre = Controlador.buscarTipoSangre(tipoSangreST);
+            TiposSangre tipoSangre = Controlador.buscarTipoSangreST(tipoSangreST);
 
 
             if (vista.getRadioButtonDonador().isSelected()) {
@@ -124,15 +123,13 @@ public class PersonasControlador {
 
                     personasConPacientes.add(persona);
                     JOptionPane.showMessageDialog(null, "La persona se ingreso correctamente");
-                    PersonasTXT.grabarPersonaTXT(persona);
-                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personasConPacientes);
+                    PersonasDB.insertPersonas(persona);
 
                 } else {
 
                     PersonasControlador.modificarPersona(persona);
                     JOptionPane.showMessageDialog(null, "La persona se modifico correctamente");
-                    PersonasTXT.grabarSetPersonasTXT(personasConPacientes);
-                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personasConPacientes);
+                    PersonasDB.updatePersonas(persona);
 
                 }
 
@@ -174,15 +171,13 @@ public class PersonasControlador {
 
                     personasConPacientes.add(persona);
                     JOptionPane.showMessageDialog(null, "La persona se ingreso correctamente");
-                    PersonasTXT.grabarPersonaTXT(persona);
-                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personasConPacientes);
+                    PersonasDB.insertPersonas(persona);
 
                 } else {
 
                     PersonasControlador.modificarPersona(persona);
                     JOptionPane.showMessageDialog(null, "La persona se modifico correctamente");
-                    PersonasTXT.grabarSetPersonasTXT(personasConPacientes);
-                    MedicamentosTXT.grabarPacientesMedicamentosTXT(personasConPacientes);
+                    PersonasDB.updatePersonas(persona);
 
                 }
 
