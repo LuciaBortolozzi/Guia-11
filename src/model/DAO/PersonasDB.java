@@ -4,10 +4,9 @@ import controller.Conexion;
 import controller.Controlador;
 import model.*;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TreeSet;
@@ -45,8 +44,6 @@ public class PersonasDB {
         }
         return personas;
     }
-
-
 
     public static TreeSet<Personas> selectDonadores(TreeSet<Personas> personas) {
         try {
@@ -350,4 +347,51 @@ public class PersonasDB {
             e.printStackTrace();
         }
     }
+
+    public static DefaultTableModel selectConsultaMasiva(String provinciaST, String tipoDeSangreST) {
+        DefaultTableModel dtm = new DefaultTableModel();
+
+        try {
+            Connection conn = Conexion.getConnection();
+
+            PreparedStatement pStatProv = conn.prepareStatement("SELECT idProvincia FROM Provincias WHERE nombreProv = ?");
+            pStatProv.setString(1, provinciaST);
+            ResultSet Idprov = pStatProv.executeQuery();
+            Idprov.next();
+
+            PreparedStatement pStatSang = conn.prepareStatement("SELECT id FROM TiposSangre WHERE CONCAT(grupo,factor)= ?");
+            pStatSang.setString(1, tipoDeSangreST);
+            ResultSet IdSan = pStatSang.executeQuery();
+            IdSan.next();
+
+            PreparedStatement pStat = conn.prepareStatement ("SELECT dni, nombre, apellido, sexo, fechaNac, localidad FROM Personas WHERE tipoSangre = ? AND provincia = ?");
+            pStat.setInt(2, IdSan.getInt("id"));
+            pStat.setInt(1, Idprov.getInt("idProvincia"));
+            ResultSet rs = pStat .executeQuery();
+
+            ResultSetMetaData rsmd = rs.getMetaData();      //info de las columnas del rs
+            int numCols = rsmd.getColumnCount();
+            Object[] datosDin = new Object[numCols];
+            String colDin[] = new String[numCols];
+
+            for (int i = 0; i < numCols; i++) {
+                colDin[i] = rsmd.getColumnName(i + 1);
+            }        //nombre de columnas
+            dtm.setColumnIdentifiers(colDin);
+            while (rs.next()) {
+                for (int i = 0; i < numCols; i++) {
+                    datosDin[i] = rs.getObject(i + 1);
+                }
+                dtm.addRow(datosDin);
+            }
+
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dtm;
+    }
+
+
 }

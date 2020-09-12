@@ -1,8 +1,10 @@
 package controller;
 
+import model.DAO.PersonasDB;
 import model.Personas;
 import view.FrameConsultaMas;
 
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -27,7 +29,12 @@ public class CtrlFrameConsultaMas implements ActionListener {
 
             vista.getTableModel().setRowCount(0);
 
-            TreeSet<Personas> personasAux = consultaPersonas(provinciaST, tipoDeSangreST);
+            DefaultTableModel dtm = PersonasDB.selectConsultaMasiva(provinciaST, tipoDeSangreST);
+            //TreeSet<Personas> personasAux = consultaPersonas(provinciaST, tipoDeSangreST);
+
+            vista.getTabla().setModel(dtm);//NO TE DAS UNA IDEA DE LO QUE ME COSTÓ HACER ESTA LINEA DE MIERDA!!!
+
+            /*
             for (Personas pers : personasAux) {
                 Object[] row = {pers.getDni(), pers.getNombre(),
                         pers.getApellido(), pers.getLocalidad().getNombreLoc(),
@@ -37,12 +44,13 @@ public class CtrlFrameConsultaMas implements ActionListener {
                 vista.getTableModel().addRow(row);
             }
 
-            vista.getTextResultados().setText(String.valueOf(personasAux.size()));
+            vista.getTextResultados().setText(String.valueOf(personasAux.size()));*/
+            vista.getTextResultados().setText(String.valueOf(dtm.getRowCount()));
             vista.getTextTotales().setText(String.valueOf(personasConPacientes.size()));
 
         }
     }
-
+    /* QUEDA REEMPLAZADO POR selectConsultaMasiva de PersonasDB
     public TreeSet<Personas> consultaPersonas(String provinciaST, String tipoDeSangreST) {
 
         TreeSet<Personas> personasAux = new TreeSet<Personas>();
@@ -82,5 +90,5 @@ public class CtrlFrameConsultaMas implements ActionListener {
         }
 
         return personasAux;
-    }
+    }*/
 }

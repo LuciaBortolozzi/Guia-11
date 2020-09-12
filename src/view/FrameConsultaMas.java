@@ -21,7 +21,7 @@ public class FrameConsultaMas {
     private JLabel labelTipoSangre = new JLabel("Tipo de Sangre");
     private JTextField textTipoSangre = new JTextField(20);
     private JButton buttonBuscar = new JButton("Buscar");
-    private String[] columnas = {"DNI", "Nombre", "Apellido", "Localidad", "Fecha de Nacimiento", "Sexo"};
+    //private String[] columnas = {"DNI", "Nombre", "Apellido", "Localidad", "Fecha de Nacimiento", "Sexo"};
     private DefaultTableModel tableModel = new DefaultTableModel();
     private JTable tabla = new JTable(tableModel);
     private JScrollPane scrollPane = new JScrollPane(tabla);
@@ -55,9 +55,9 @@ public class FrameConsultaMas {
         textResultados.setEditable(false);
         textTotales.setEditable(false);
 
-        for (int i = 0; i < columnas.length; i++) {
-            tableModel.addColumn(columnas[i]);
-        }
+        //for (int i = 0; i < columnas.length; i++) {
+        //    tableModel.addColumn(columnas[i]);
+        //}
 
         panelCentral.add(scrollPane, BorderLayout.CENTER);
         panelCentral.add(panelTotales, BorderLayout.SOUTH);
@@ -92,13 +92,13 @@ public class FrameConsultaMas {
         this.buttonBuscar = buttonBuscar;
     }
 
-    public String[] getColumnas() {
-        return columnas;
-    }
+    //public String[] getColumnas() {
+    //    return columnas;
+    //}
 
-    public void setColumnas(String[] columnas) {
-        this.columnas = columnas;
-    }
+    //public void setColumnas(String[] columnas) {
+    //    this.columnas = columnas;
+    //}
 
     public DefaultTableModel getTableModel() {
         return tableModel;
