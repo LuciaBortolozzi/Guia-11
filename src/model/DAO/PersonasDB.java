@@ -4,13 +4,11 @@ import controller.Conexion;
 import controller.Controlador;
 import model.*;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TreeSet;
-
 
 public class PersonasDB {
 
@@ -293,7 +291,7 @@ public class PersonasDB {
         Connection conn = Conexion.getConnection();
         Statement stmt = conn.createStatement();
         stmt.executeQuery("UPDATE Donadores SET donaSangre=" + donaSangre + ", donaPlasma=" + donaPlasma
-                + ", donaPlaquetas=" + donaPlaquetas + " WHERE  dni="+ persona.getDni());
+                + ", donaPlaquetas=" + donaPlaquetas + " WHERE  dni=" + persona.getDni());
         conn.close();
     }
 
@@ -303,7 +301,7 @@ public class PersonasDB {
         Statement stmt = conn.createStatement();
         stmt.executeQuery("UPDATE Pacientes SET enfermedad='" + ((Pacientes) persona).getEnfermedad() + "', inicioTratamiento='"
                 + ((Pacientes) persona).getInicioTratamiento().get(Calendar.YEAR) + (((Pacientes) persona).getInicioTratamiento().get(Calendar.MONTH) + 1)
-                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.DAY_OF_MONTH) + "' WHERE  dni="+ persona.getDni());
+                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.DAY_OF_MONTH) + "' WHERE  dni=" + persona.getDni());
         conn.close();
     }
 
@@ -353,21 +351,46 @@ public class PersonasDB {
 
         try {
             Connection conn = Conexion.getConnection();
+            ResultSet Idprov = null;
+            ResultSet IdSan = null;
+            ResultSet rs;
 
-            PreparedStatement pStatProv = conn.prepareStatement("SELECT idProvincia FROM Provincias WHERE nombreProv = ?");
-            pStatProv.setString(1, provinciaST);
-            ResultSet Idprov = pStatProv.executeQuery();
-            Idprov.next();
+            String provincia = "";
+            if (provinciaST.length() != 0) {
+                provincia = provinciaST.toUpperCase().trim();
+                PreparedStatement pStatProv = conn.prepareStatement("SELECT idProvincia FROM Provincias WHERE nombreProv = ?");
+                pStatProv.setString(1, provincia);
+                Idprov = pStatProv.executeQuery();
+                Idprov.next();
+            }
 
-            PreparedStatement pStatSang = conn.prepareStatement("SELECT id FROM TiposSangre WHERE CONCAT(grupo,factor)= ?");
-            pStatSang.setString(1, tipoDeSangreST);
-            ResultSet IdSan = pStatSang.executeQuery();
-            IdSan.next();
+            String tipoDeSangre = "";
+            if (tipoDeSangreST.length() != 0) {
+                tipoDeSangre = tipoDeSangreST.toUpperCase().trim();
+                PreparedStatement pStatSang = conn.prepareStatement("SELECT id FROM TiposSangre WHERE CONCAT(grupo,factor)= ?");
+                pStatSang.setString(1, tipoDeSangre);
+                IdSan = pStatSang.executeQuery();
+                IdSan.next();
+            }
 
-            PreparedStatement pStat = conn.prepareStatement ("SELECT dni, nombre, apellido, sexo, fechaNac, localidad FROM Personas WHERE tipoSangre = ? AND provincia = ?");
-            pStat.setInt(2, IdSan.getInt("id"));
-            pStat.setInt(1, Idprov.getInt("idProvincia"));
-            ResultSet rs = pStat .executeQuery();
+            if (Idprov != null && IdSan != null) {
+                PreparedStatement pStat = conn.prepareStatement("SELECT dni, nombre, apellido, sexo, fechaNac, localidad FROM Personas WHERE tipoSangre = ? AND provincia = ?");
+                pStat.setInt(2, IdSan.getInt("id"));
+                pStat.setInt(1, Idprov.getInt("idProvincia"));
+                rs = pStat.executeQuery();
+            } else if (Idprov != null) {
+                PreparedStatement pStat = conn.prepareStatement("SELECT dni, nombre, apellido, sexo, fechaNac, localidad FROM Personas WHERE provincia = ?");
+                pStat.setInt(1, Idprov.getInt("idProvincia"));
+                rs = pStat.executeQuery();
+            } else if (IdSan != null) {
+                PreparedStatement pStat = conn.prepareStatement("SELECT dni, nombre, apellido, sexo, fechaNac, localidad FROM Personas WHERE tipoSangre = ?");
+                pStat.setInt(1, IdSan.getInt("id"));
+                rs = pStat.executeQuery();
+            } else {
+                PreparedStatement pStat = conn.prepareStatement("SELECT dni, nombre, apellido, sexo, fechaNac, localidad FROM Personas ");
+                rs = pStat.executeQuery();
+            }
+
 
             ResultSetMetaData rsmd = rs.getMetaData();      //info de las columnas del rs
             int numCols = rsmd.getColumnCount();
@@ -400,7 +423,7 @@ public class PersonasDB {
         try {
             Connection conn = Conexion.getConnection();
             CallableStatement instruction = conn.prepareCall("{call calcularMililitros (?)}");
-            instruction.registerOutParameter(1,java.sql.Types.DOUBLE );
+            instruction.registerOutParameter(1, java.sql.Types.DOUBLE);
             instruction.execute();
 
             cantidad = instruction.getDouble(1);

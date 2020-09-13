@@ -1,14 +1,12 @@
 package controller;
 
 import model.DAO.PersonasDB;
-import model.Personas;
 import view.FrameConsultaMas;
 
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.TreeSet;
+
 
 import static controller.Controlador.personasConPacientes;
 
@@ -32,7 +30,7 @@ public class CtrlFrameConsultaMas implements ActionListener {
             DefaultTableModel dtm = PersonasDB.selectConsultaMasiva(provinciaST, tipoDeSangreST);
             //TreeSet<Personas> personasAux = consultaPersonas(provinciaST, tipoDeSangreST);
 
-            vista.getTabla().setModel(dtm);//NO TE DAS UNA IDEA DE LO QUE ME COSTÓ HACER ESTA LINEA DE MIERDA!!!
+            vista.getTabla().setModel(dtm);
 
             /*
             for (Personas pers : personasAux) {
@@ -50,8 +48,8 @@ public class CtrlFrameConsultaMas implements ActionListener {
 
         }
     }
-    /* QUEDA REEMPLAZADO POR selectConsultaMasiva de PersonasDB
-    public TreeSet<Personas> consultaPersonas(String provinciaST, String tipoDeSangreST) {
+
+    /*public TreeSet<Personas> consultaPersonas(String provinciaST, String tipoDeSangreST) {
 
         TreeSet<Personas> personasAux = new TreeSet<Personas>();
 
