@@ -393,5 +393,23 @@ public class PersonasDB {
         return dtm;
     }
 
+    public double calcularMililitros() {
 
+        double cantidad = 0;
+
+        try {
+            Connection conn = Conexion.getConnection();
+            CallableStatement instruction = conn.prepareCall("{call calcularMililitros (?)}");
+            instruction.registerOutParameter(1,java.sql.Types.DOUBLE );
+            instruction.execute();
+
+            cantidad = instruction.getDouble(1);
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return cantidad;
+    }
 }
