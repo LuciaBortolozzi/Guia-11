@@ -15,6 +15,7 @@ y ejecutados desde el cliente.
 cliente.
 - Información estadística: implementar alguno de los puntos mencionados con
 stored procedure que devuelva la información como parámetro de salida.
+
 Los datos a visualizar en todas las listas (desplegables, estáticas, dinámicas) deben ser
 obtenidos de tablas relacionadas con la misma información que reside en los archivos.
 
