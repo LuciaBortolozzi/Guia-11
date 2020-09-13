@@ -1,6 +1,7 @@
 package controller;
 
 import model.DAO.EstadisticasJson;
+import model.DAO.PersonasDB;
 import model.Donadores;
 import model.Personas;
 import view.FrameEstadisticas;
@@ -41,7 +42,7 @@ public class CtrlFrameEstadisticas {
             vista.getTableModel().addRow(row);
         }
 
-        vista.getTextCantidadTotExt().setText(String.valueOf(calcularMililitros()));
+        vista.getTextCantidadTotExt().setText(String.valueOf(PersonasDB.calcularMililitros()));
 
         TreeSet<Personas> personasAux2 = consultaPorParametro();
 
@@ -73,6 +74,26 @@ public class CtrlFrameEstadisticas {
         return personasAux;
     }
 
+    public TreeSet<Personas> consultaPorParametro() {
+
+        TreeSet<Personas> personasAux = new TreeSet<Personas>();
+        for (Personas p : personasConPacientes) {
+
+            if (p instanceof Donadores) {
+                for (int i = 0; i < ((Donadores) p).getExtracciones().size(); i++) {
+                    if (((Donadores) p).getExtracciones().get(i).getPesoDonador() != totalPeso) {
+
+                        personasAux.add(p);
+                    }
+                }
+            }
+        }
+
+        EstadisticasJson.grabarJsonStream(personasAux);
+        return personasAux;
+    }
+
+    /*
     public double calcularMililitros() {
 
         double cantidad = 0;
@@ -96,24 +117,5 @@ public class CtrlFrameEstadisticas {
             }
         }
         return cantidad;
-    }
-
-    public TreeSet<Personas> consultaPorParametro() {
-
-        TreeSet<Personas> personasAux = new TreeSet<Personas>();
-        for (Personas p : personasConPacientes) {
-
-            if (p instanceof Donadores) {
-                for (int i = 0; i < ((Donadores) p).getExtracciones().size(); i++) {
-                    if (((Donadores) p).getExtracciones().get(i).getPesoDonador() != totalPeso) {
-
-                        personasAux.add(p);
-                    }
-                }
-            }
-        }
-
-        EstadisticasJson.grabarJsonStream(personasAux);
-        return personasAux;
-    }
+    }*/
 }

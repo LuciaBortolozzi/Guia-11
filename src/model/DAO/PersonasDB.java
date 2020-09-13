@@ -393,7 +393,7 @@ public class PersonasDB {
         return dtm;
     }
 
-    public double calcularMililitros() {
+    public static double calcularMililitros() {
 
         double cantidad = 0;
 
