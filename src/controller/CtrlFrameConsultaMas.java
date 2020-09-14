@@ -14,6 +14,7 @@ import java.util.Calendar;
 
 
 import static controller.Controlador.personasConPacientes;
+import static controller.Validaciones.convertirAFechaCalendar;
 
 public class CtrlFrameConsultaMas implements ActionListener, TableModelListener {
 
@@ -43,52 +44,50 @@ public class CtrlFrameConsultaMas implements ActionListener, TableModelListener 
     @Override
     public void tableChanged(TableModelEvent e) {
 
-        Calendar fecha = Calendar.getInstance();
+        if (e.getType() == TableModelEvent.UPDATE) {
 
-        if (e.getType() == TableModelEvent.UPDATE && e.getColumn() > 0) {
-
-            String registro = ((String) vista.getTabla().getValueAt(e.getFirstRow(), e.getColumn())).toUpperCase();
+            String registro = ((String) vista.getTabla().getValueAt(e.getFirstRow(), e.getColumn())).toUpperCase().trim();
             int columna = e.getColumn();
-            int dni= Integer.parseInt( (String) vista.getTabla().getValueAt(vista.getTabla().getSelectedRow(),0));
-            
+            int dni = Integer.parseInt((String) vista.getTabla().getValueAt(vista.getTabla().getSelectedRow(), 0));
+
             Personas persona = PersonasControlador.buscarPersona(dni);
 
-            switch (columna) {
-                case 1:
-                    persona.setNombre(registro);
-                    PersonasDB.updateTablaPersonas(persona);
-                    break;
-
-                case 2:
-                    persona.setApellido(registro);
-                    PersonasDB.updateTablaPersonas(persona);
-                    break;
-
-                case 3:
-                    persona.setSexo(registro.charAt(0));
-                    PersonasDB.updateTablaPersonas(persona);
-                    break;
-
-                case 4:
-                    Calendar fechaNac = Calendar.getInstance();
-                    fechaNac.set(Calendar.YEAR,Integer.parseInt(registro.substring(0,4)));
-                    fechaNac.set(Calendar.MONTH,Integer.parseInt((registro.substring(5,7)+1)));
-                    fechaNac.set(Calendar.DAY_OF_MONTH,Integer.parseInt(registro.substring(8,10)));
-                    persona.setFechaNac(fechaNac);
-                    PersonasDB.updateTablaPersonas(persona);
-                    break;
-
-                case 5:
-                    int localidad = Integer.parseInt(registro);
-                    if(localidad >= 1 && localidad<=24){
-
-                        Localidades loc = Controlador.buscarLocalidad(localidad);
-                        persona.setLocalidad(loc);
+            if (persona != null) {
+                switch (columna) {
+                    case 1:
+                        persona.setNombre(registro);
                         PersonasDB.updateTablaPersonas(persona);
-                    }
-                    break;
+                        break;
 
+                    case 2:
+                        persona.setApellido(registro);
+                        PersonasDB.updateTablaPersonas(persona);
+                        break;
+
+                    case 3:
+                        persona.setSexo(registro.charAt(0));
+                        PersonasDB.updateTablaPersonas(persona);
+                        break;
+
+                    case 4:
+                        Calendar fechaNac = Calendar.getInstance();
+                        fechaNac = convertirAFechaCalendar(registro);
+                        persona.setFechaNac(fechaNac);
+                        PersonasDB.updateTablaPersonas(persona);
+                        break;
+
+                    case 5:
+                        int localidad = Integer.parseInt(registro);
+                        if (localidad >= 1 && localidad <= 24) {
+
+                            Localidades loc = Controlador.buscarLocalidad(localidad);
+                            persona.setLocalidad(loc);
+                            PersonasDB.updateTablaPersonas(persona);
+                        }
+                        break;
+                }
             }
+
         }
 
     }
