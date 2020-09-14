@@ -70,7 +70,11 @@ public class CtrlFrameConsultaMas implements ActionListener, TableModelListener 
                     break;
 
                 case 4:
-                   // persona.setFechaNac(registro);  ----> PASAR REG A FECHA
+                    Calendar fechaNac = Calendar.getInstance();
+                    fechaNac.set(Calendar.YEAR,Integer.parseInt(registro.substring(0,4)));
+                    fechaNac.set(Calendar.MONTH,Integer.parseInt((registro.substring(5,7)+1)));
+                    fechaNac.set(Calendar.DAY_OF_MONTH,Integer.parseInt(registro.substring(8,10)));
+                    persona.setFechaNac(fechaNac);
                     PersonasDB.updateTablaPersonas(persona);
                     break;
 

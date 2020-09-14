@@ -66,6 +66,8 @@ public class FrameConsultaMas {
         ventana.add(buttonBuscar, BorderLayout.SOUTH);
         ventana.add(panelCentral, BorderLayout.CENTER);
 
+        tabla.getModel().addTableModelListener(ctrlFrameConsultaMas);
+
     }
 
     public JTextField getTextProvincia() {
