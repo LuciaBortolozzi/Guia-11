@@ -435,4 +435,32 @@ public class PersonasDB {
 
         return cantidad;
     }
+
+    public static void updateTablaPersonas(Personas persona) {
+
+        try {
+            Connection conn = Conexion.getConnection();
+
+            PreparedStatement pStat = conn.prepareStatement("UPDATE Personas SET nombre = ?, apellido = ?, sexo = ?, fechaNac = ?, localidad = ? WHERE dni = ?");
+
+            pStat.setString(1, persona.getNombre());
+            pStat.setString(2, persona.getApellido());
+            pStat.setString(3, String.valueOf(persona.getSexo()));
+
+            Calendar fechaNac = Calendar.getInstance();
+            fechaNac.set(Calendar.YEAR, persona.getFechaNac().get(Calendar.YEAR));
+            fechaNac.set(Calendar.MONTH, persona.getFechaNac().get(Calendar.MONTH));
+            fechaNac.set(Calendar.DAY_OF_MONTH, persona.getFechaNac().get(Calendar.DAY_OF_MONTH));
+            java.sql.Date fechaNacimiento = (Date) fechaNac.getTime();
+            pStat.setDate(4, fechaNacimiento);
+
+            pStat.setInt(5, persona.getLocalidad().getIdLocalidad());
+            pStat.setInt(6, persona.getDni());
+            pStat.executeUpdate();
+
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -30,6 +30,17 @@ public class Controlador {
         return localidad;
     }
 
+    public static Localidades buscarLocalidad(int localidadID) {
+        Localidades localidad = null;
+
+        for (Localidades loc : localidades) {
+            if (loc.getIdLocalidad() == localidadID ) {
+                return loc;
+            }
+        }
+        return localidad;
+    }
+
     public static TiposSangre buscarTipoSangreST(String tipoSangreST) {
         TiposSangre tiposSangre = null;
 

@@ -14,7 +14,7 @@ public class PersonasControlador {
     public static Personas buscarPersona(int dniPersona) {
 
         Personas persona;
-        Iterator<Personas> iteratorPersonas = personasAux.iterator();
+        Iterator<Personas> iteratorPersonas = personasConPacientes.iterator();
         while (iteratorPersonas.hasNext()) {
             persona = iteratorPersonas.next();
 

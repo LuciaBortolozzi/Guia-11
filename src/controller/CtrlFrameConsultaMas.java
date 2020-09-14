@@ -1,16 +1,21 @@
 package controller;
 
 import model.DAO.PersonasDB;
+import model.Localidades;
+import model.Personas;
 import view.FrameConsultaMas;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 
 import static controller.Controlador.personasConPacientes;
 
-public class CtrlFrameConsultaMas implements ActionListener {
+public class CtrlFrameConsultaMas implements ActionListener, TableModelListener {
 
     private FrameConsultaMas vista;
 
@@ -24,29 +29,64 @@ public class CtrlFrameConsultaMas implements ActionListener {
             String provinciaST = vista.getTextProvincia().getText();
             String tipoDeSangreST = vista.getTextTipoSangre().getText();
 
-
             vista.getTableModel().setRowCount(0);
 
             DefaultTableModel dtm = PersonasDB.selectConsultaMasiva(provinciaST, tipoDeSangreST);
-            //TreeSet<Personas> personasAux = consultaPersonas(provinciaST, tipoDeSangreST);
 
             vista.getTabla().setModel(dtm);
-
-            /*
-            for (Personas pers : personasAux) {
-                Object[] row = {pers.getDni(), pers.getNombre(),
-                        pers.getApellido(), pers.getLocalidad().getNombreLoc(),
-                        String.format("%02d", pers.getFechaNac().get(Calendar.DAY_OF_MONTH)) + "/" +
-                                String.format("%02d", (pers.getFechaNac().get(Calendar.MONTH) + 1)) + "/" +
-                                pers.getFechaNac().get(Calendar.YEAR), pers.getSexo()};
-                vista.getTableModel().addRow(row);
-            }
-
-            vista.getTextResultados().setText(String.valueOf(personasAux.size()));*/
             vista.getTextResultados().setText(String.valueOf(dtm.getRowCount()));
             vista.getTextTotales().setText(String.valueOf(personasConPacientes.size()));
 
         }
+    }
+
+    @Override
+    public void tableChanged(TableModelEvent e) {
+
+        Calendar fecha = Calendar.getInstance();
+
+        if (e.getType() == TableModelEvent.UPDATE && e.getColumn() > 0) {
+
+            String registro = ((String) vista.getTabla().getValueAt(e.getFirstRow(), e.getColumn())).toUpperCase();
+            int columna = e.getColumn();
+            int dni= Integer.parseInt( (String) vista.getTabla().getValueAt(vista.getTabla().getSelectedRow(),0));
+            
+            Personas persona = PersonasControlador.buscarPersona(dni);
+
+            switch (columna) {
+                case 1:
+                    persona.setNombre(registro);
+                    PersonasDB.updateTablaPersonas(persona);
+                    break;
+
+                case 2:
+                    persona.setApellido(registro);
+                    PersonasDB.updateTablaPersonas(persona);
+                    break;
+
+                case 3:
+                    persona.setSexo(registro.charAt(0));
+                    PersonasDB.updateTablaPersonas(persona);
+                    break;
+
+                case 4:
+                   // persona.setFechaNac(registro);  ----> PASAR REG A FECHA
+                    PersonasDB.updateTablaPersonas(persona);
+                    break;
+
+                case 5:
+                    int localidad = Integer.parseInt(registro);
+                    if(localidad >= 1 && localidad<=24){
+
+                        Localidades loc = Controlador.buscarLocalidad(localidad);
+                        persona.setLocalidad(loc);
+                        PersonasDB.updateTablaPersonas(persona);
+                    }
+                    break;
+
+            }
+        }
+
     }
 
     /*public TreeSet<Personas> consultaPersonas(String provinciaST, String tipoDeSangreST) {
