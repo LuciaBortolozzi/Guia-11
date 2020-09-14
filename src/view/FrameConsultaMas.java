@@ -24,9 +24,7 @@ public class FrameConsultaMas {
     private DefaultTableModel tableModel = new DefaultTableModel();
     private JTable tabla = new JTable(tableModel)
     {public boolean isCellEditable(int row,int column)
-    {switch(column){
-        case 0:  return false;
-        default: return true;}
+    {return row >= 0 && column > 0;
     }};
     private JScrollPane scrollPane = new JScrollPane(tabla);
     private JLabel labelResultado = new JLabel("coincidencias en");

@@ -7,21 +7,24 @@ public class Validaciones {
     public static Calendar convertirAFechaCalendar(String f) {
         Calendar fecha = Calendar.getInstance();
 
-        //  dd/mm/aaaa
-        String[] aux = f.split("/");
-        int day = Integer.parseInt(aux[0]);
-        int month = Integer.parseInt(aux[1]);
-        int year = Integer.parseInt(aux[2]);
+        if (f.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            //  aaaa-mm-dd
+            String[] aux = f.split("-");
+            int year = Integer.parseInt(aux[0]);
+            int month = Integer.parseInt(aux[1]);
+            int day = Integer.parseInt(aux[2]);
 
-        fecha.set(Calendar.DAY_OF_MONTH, day);
-        fecha.set(Calendar.MONTH, (month - 1));
-        fecha.set(Calendar.YEAR, year);
+            if (day >= 1 && day <= 31
+                    && month >= 1 && month <= 12
+                    && year >= 1900) {
 
+                fecha.set(Calendar.YEAR, year);
+                fecha.set(Calendar.MONTH, (month - 1));
+                fecha.set(Calendar.DAY_OF_MONTH, day);
+            }
+
+        }
         return fecha;
     }
 
-    public static Calendar seisMesesAntes(Calendar fechaActual) {
-        fechaActual.add(Calendar.MONTH, -6);
-        return fechaActual;
-    }
 }
