@@ -161,11 +161,12 @@ public class PersonasDB {
                 tipoPersona = 0;
             }
 
+            // Arreglar (callable)
             Connection conn = Conexion.getConnection();
             Statement stmt = conn.createStatement();
-            stmt.executeQuery("INSERT INTO Personas VALUES (" + persona.getDni() + ",'" + persona.getNombre() + "','" + persona.getApellido()
-                    + "','" + persona.getSexo() + "','" + persona.getFechaNac().get(Calendar.YEAR) + (persona.getFechaNac().get(Calendar.MONTH) + 1)
-                    + persona.getFechaNac().get(Calendar.DAY_OF_MONTH) + "'," + persona.getLocalidad().getProvincia() + "," + persona.getLocalidad().getIdLocalidad() +
+            stmt.executeUpdate("INSERT INTO Personas VALUES (" + persona.getDni() + ",'" + persona.getNombre() + "','" + persona.getApellido()
+                    + "','" + persona.getSexo() + "','" + persona.getFechaNac().get(Calendar.YEAR) + "-" + (persona.getFechaNac().get(Calendar.MONTH) + 1) + "-"
+                    + persona.getFechaNac().get(Calendar.DAY_OF_MONTH) + "'," + persona.getLocalidad().getProvincia().getIdProvincia() + "," + persona.getLocalidad().getIdLocalidad() +
                     "," + persona.getTipoSangre().getId() + "," + tipoPersona + ")");
             conn.close();
 
@@ -200,9 +201,10 @@ public class PersonasDB {
             donaPlaquetas = 1;
         }
 
+        // Arreglar (callable)
         Connection conn = Conexion.getConnection();
         Statement stmt = conn.createStatement();
-        stmt.executeQuery("INSERT INTO Donadores VALUES (" + persona.getDni() + "," + donaSangre + "," + donaPlasma
+        stmt.executeUpdate("INSERT INTO Donadores VALUES (" + persona.getDni() + "," + donaSangre + "," + donaPlasma
                 + "," + donaPlaquetas + ")");
         conn.close();
 
@@ -210,10 +212,11 @@ public class PersonasDB {
 
     public static void insertPacientes(Personas persona) throws SQLException {
 
+        // Arreglar (callable)
         Connection conn = Conexion.getConnection();
         Statement stmt = conn.createStatement();
-        stmt.executeQuery("INSERT INTO Pacientes VALUES (" + persona.getDni() + ",'" + ((Pacientes) persona).getEnfermedad() + "','"
-                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.YEAR) + (((Pacientes) persona).getInicioTratamiento().get(Calendar.MONTH) + 1)
+        stmt.executeUpdate("INSERT INTO Pacientes VALUES (" + persona.getDni() + ",'" + ((Pacientes) persona).getEnfermedad() + "','"
+                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.YEAR) + "-" + (((Pacientes) persona).getInicioTratamiento().get(Calendar.MONTH) + 1) + "-"
                 + ((Pacientes) persona).getInicioTratamiento().get(Calendar.DAY_OF_MONTH) + "')");
         conn.close();
     }
@@ -221,6 +224,7 @@ public class PersonasDB {
     public static void insertMedicamentosPacientes(Personas persona) {
 
         try {
+            // Arreglar (callable)
             Connection conn = Conexion.getConnection();
             Statement stmt = conn.createStatement();
 
@@ -228,7 +232,7 @@ public class PersonasDB {
 
                 for (Medicamentos med : ((Pacientes) persona).getMedicamentos()) {
 
-                    stmt.executeQuery("INSERT INTO PacientesMedicamentos VALUES(" + persona.getDni() + "," + med.getIdMed() + ")");
+                    stmt.executeUpdate("INSERT INTO PacientesMedicamentos VALUES(" + persona.getDni() + "," + med.getIdMed() + ")");
 
                 }
             }
@@ -252,10 +256,11 @@ public class PersonasDB {
 
             Connection conn = Conexion.getConnection();
             Statement stmt = conn.createStatement();
-            stmt.executeQuery("UPDATE Personas SET nombre='" + persona.getNombre() + "', apellido='" + persona.getApellido()
-                    + "', sexo='" + persona.getSexo() + "', fechaNac='" + persona.getFechaNac().get(Calendar.YEAR) + (persona.getFechaNac().get(Calendar.MONTH) + 1)
-                    + persona.getFechaNac().get(Calendar.DAY_OF_MONTH) + "', provincia=" + persona.getLocalidad().getProvincia() + ", localidad=" + persona.getLocalidad().getIdLocalidad() +
-                    ", tipoSangre=" + persona.getTipoSangre().getId() + " WHERE dni=" + persona.getDni());
+            stmt.executeUpdate("UPDATE Personas SET nombre='" + persona.getNombre() + "', apellido='" + persona.getApellido()
+                    + "', sexo='" + persona.getSexo() + "', fechaNac='" + persona.getFechaNac().get(Calendar.YEAR) + "-" + (persona.getFechaNac().get(Calendar.MONTH) + 1) + "-"
+                    + persona.getFechaNac().get(Calendar.DAY_OF_MONTH) + "', provincia=" + persona.getLocalidad().getProvincia().getIdProvincia() + ", localidad=" + persona.getLocalidad().getIdLocalidad() +
+                    ", tipoSangre=" + persona.getTipoSangre().getId() + " WHERE dni=" + persona.getDni()+"");
+
             conn.close();
 
             if (persona instanceof Donadores) {
@@ -290,8 +295,8 @@ public class PersonasDB {
 
         Connection conn = Conexion.getConnection();
         Statement stmt = conn.createStatement();
-        stmt.executeQuery("UPDATE Donadores SET donaSangre=" + donaSangre + ", donaPlasma=" + donaPlasma
-                + ", donaPlaquetas=" + donaPlaquetas + " WHERE  dni=" + persona.getDni());
+        stmt.executeUpdate("UPDATE Donadores SET donaSangre=" + donaSangre + ", donaPlasma=" + donaPlasma
+                + ", donaPlaquetas=" + donaPlaquetas + " WHERE  dni=" + persona.getDni()+"");
         conn.close();
     }
 
@@ -299,9 +304,9 @@ public class PersonasDB {
 
         Connection conn = Conexion.getConnection();
         Statement stmt = conn.createStatement();
-        stmt.executeQuery("UPDATE Pacientes SET enfermedad='" + ((Pacientes) persona).getEnfermedad() + "', inicioTratamiento='"
-                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.YEAR) + (((Pacientes) persona).getInicioTratamiento().get(Calendar.MONTH) + 1)
-                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.DAY_OF_MONTH) + "' WHERE  dni=" + persona.getDni());
+        stmt.executeUpdate("UPDATE Pacientes SET enfermedad='" + ((Pacientes) persona).getEnfermedad() + "', inicioTratamiento='"
+                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.YEAR) + "-" + (((Pacientes) persona).getInicioTratamiento().get(Calendar.MONTH) + 1) + "-"
+                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.DAY_OF_MONTH) + "' WHERE  dni=" + persona.getDni()+"");
         conn.close();
     }
 
@@ -311,7 +316,7 @@ public class PersonasDB {
             Connection conn = Conexion.getConnection();
             Statement stmt = conn.createStatement();
 
-            stmt.executeQuery("DELETE FROM PacientesMedicamentos WHERE dni=" + persona.getDni());
+            stmt.executeUpdate("DELETE FROM PacientesMedicamentos WHERE dni=" + persona.getDni()+"");
             insertMedicamentosPacientes(persona);
 
             conn.close();
@@ -328,17 +333,17 @@ public class PersonasDB {
 
             if (persona instanceof Pacientes) {
 
-                stmt.executeQuery("DELETE FROM PacientesMedicamentos WHERE dni=" + persona.getDni());
-                stmt.executeQuery("DELETE FROM Pacientes WHERE dni=" + persona.getDni());
+                stmt.executeUpdate("DELETE FROM PacientesMedicamentos WHERE dni=" + persona.getDni()+"");
+                stmt.executeUpdate("DELETE FROM Pacientes WHERE dni=" + persona.getDni()+"");
 
             } else {
 
-                stmt.executeQuery("DELETE FROM Extracciones WHERE dniDonador=" + persona.getDni());
-                stmt.executeQuery("DELETE FROM Donadores WHERE dni=" + persona.getDni());
+                stmt.executeUpdate("DELETE FROM Extracciones WHERE dniDonador=" + persona.getDni()+"");
+                stmt.executeUpdate("DELETE FROM Donadores WHERE dni=" + persona.getDni()+"");
 
             }
 
-            stmt.executeQuery("DELETE FROM Personas WHERE dni=" + persona.getDni());
+            stmt.executeUpdate("DELETE FROM Personas WHERE dni=" + persona.getDni()+"");
             conn.close();
 
         } catch (SQLException e) {
@@ -346,7 +351,48 @@ public class PersonasDB {
         }
     }
 
-    public static DefaultTableModel selectConsultaMasiva(String provinciaST, String tipoDeSangreST) {
+    public static double calcularMililitros() {
+
+        double cantidad = 0;
+
+        try {
+            Connection conn = Conexion.getConnection();
+            CallableStatement instruction = conn.prepareCall("{call calcularMililitros (?)}");
+            instruction.registerOutParameter(1, java.sql.Types.DOUBLE);
+            instruction.execute();
+
+            cantidad = instruction.getDouble(1);
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return cantidad;
+    }
+
+    public static void updateTablaPersonas(Personas persona) {
+
+        try {
+            Connection conn = Conexion.getConnection();
+
+            PreparedStatement pStat = conn.prepareStatement("UPDATE Personas SET nombre = ?, apellido = ?, sexo = ?, localidad = ? WHERE dni = ?");
+
+            pStat.setString(1, persona.getNombre());
+            pStat.setString(2, persona.getApellido());
+            pStat.setString(3, String.valueOf(persona.getSexo()));
+            pStat.setInt(4, persona.getLocalidad().getIdLocalidad());
+            pStat.setInt(5, persona.getDni());
+            pStat.executeUpdate();
+
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Reemplazada por consumir de memoria en vez de db
+    /*public static DefaultTableModel selectConsultaMasiva(String provinciaST, String tipoDeSangreST) {
         DefaultTableModel dtm = new DefaultTableModel();
 
         try {
@@ -414,53 +460,5 @@ public class PersonasDB {
             e.printStackTrace();
         }
         return dtm;
-    }
-
-    public static double calcularMililitros() {
-
-        double cantidad = 0;
-
-        try {
-            Connection conn = Conexion.getConnection();
-            CallableStatement instruction = conn.prepareCall("{call calcularMililitros (?)}");
-            instruction.registerOutParameter(1, java.sql.Types.DOUBLE);
-            instruction.execute();
-
-            cantidad = instruction.getDouble(1);
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return cantidad;
-    }
-
-    public static void updateTablaPersonas(Personas persona) {
-
-        try {
-            Connection conn = Conexion.getConnection();
-
-            PreparedStatement pStat = conn.prepareStatement("UPDATE Personas SET nombre = ?, apellido = ?, sexo = ?, fechaNac = ?, localidad = ? WHERE dni = ?");
-
-            pStat.setString(1, persona.getNombre());
-            pStat.setString(2, persona.getApellido());
-            pStat.setString(3, String.valueOf(persona.getSexo()));
-
-            Calendar fechaNac = Calendar.getInstance();
-            fechaNac.set(Calendar.YEAR, persona.getFechaNac().get(Calendar.YEAR));
-            fechaNac.set(Calendar.MONTH, persona.getFechaNac().get(Calendar.MONTH));
-            fechaNac.set(Calendar.DAY_OF_MONTH, persona.getFechaNac().get(Calendar.DAY_OF_MONTH));
-            java.sql.Date fechaNacimiento = (Date) fechaNac.getTime();
-            pStat.setDate(4, fechaNacimiento);
-
-            pStat.setInt(5, persona.getLocalidad().getIdLocalidad());
-            pStat.setInt(6, persona.getDni());
-            pStat.executeUpdate();
-
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    }*/
 }

@@ -117,6 +117,15 @@ public class Controlador {
         return null;
     }
 
+    public static Provincias buscarProvincia(int provincia) {
+        for (Provincias prov : provincias) {
+            if (prov.getIdProvincia() == provincia) {
+                return prov;
+            }
+        }
+        return null;
+    }
+
     public static Localidades buscarLocalidad(ArrayList<Provincias> provincias, int provincia, ArrayList<Localidades> localidades, int localidad) {
         Provincias prov = buscarProvincia(provincias, provincia);
         if (prov != null) {

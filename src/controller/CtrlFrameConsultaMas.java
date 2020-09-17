@@ -7,11 +7,10 @@ import view.FrameConsultaMas;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
-
+import java.util.TreeSet;
 
 import static controller.Controlador.personasConPacientes;
 import static controller.Validaciones.convertirAFechaCalendar;
@@ -32,10 +31,17 @@ public class CtrlFrameConsultaMas implements ActionListener, TableModelListener 
 
             vista.getTableModel().setRowCount(0);
 
-            DefaultTableModel dtm = PersonasDB.selectConsultaMasiva(provinciaST, tipoDeSangreST);
+            TreeSet<Personas> personasAux = consultaPersonas(provinciaST, tipoDeSangreST);
+            for (Personas pers : personasAux) {
+                Object[] row = {pers.getDni(), pers.getNombre(),
+                        pers.getApellido(), pers.getLocalidad().getNombreLoc(),
+                        String.format("%02d", pers.getFechaNac().get(Calendar.DAY_OF_MONTH)) + "/" +
+                                String.format("%02d", (pers.getFechaNac().get(Calendar.MONTH) + 1)) + "/" +
+                                pers.getFechaNac().get(Calendar.YEAR), pers.getSexo()};
+                vista.getTableModel().addRow(row);
+            }
 
-            vista.getTabla().setModel(dtm);
-            vista.getTextResultados().setText(String.valueOf(dtm.getRowCount()));
+            vista.getTextResultados().setText(String.valueOf(personasAux.size()));
             vista.getTextTotales().setText(String.valueOf(personasConPacientes.size()));
 
         }
@@ -48,7 +54,7 @@ public class CtrlFrameConsultaMas implements ActionListener, TableModelListener 
 
             String registro = ((String) vista.getTabla().getValueAt(e.getFirstRow(), e.getColumn())).toUpperCase().trim();
             int columna = e.getColumn();
-            int dni = Integer.parseInt((String) vista.getTabla().getValueAt(vista.getTabla().getSelectedRow(), 0));
+            int dni = (Integer) (vista.getTabla().getValueAt(vista.getTabla().getSelectedRow(), 0));
 
             Personas persona = PersonasControlador.buscarPersona(dni);
 
@@ -68,23 +74,6 @@ public class CtrlFrameConsultaMas implements ActionListener, TableModelListener 
                         persona.setSexo(registro.charAt(0));
                         PersonasDB.updateTablaPersonas(persona);
                         break;
-
-                    case 4:
-                        Calendar fechaNac = Calendar.getInstance();
-                        fechaNac = convertirAFechaCalendar(registro);
-                        persona.setFechaNac(fechaNac);
-                        PersonasDB.updateTablaPersonas(persona);
-                        break;
-
-                    case 5:
-                        int localidad = Integer.parseInt(registro);
-                        if (localidad >= 1 && localidad <= 24) {
-
-                            Localidades loc = Controlador.buscarLocalidad(localidad);
-                            persona.setLocalidad(loc);
-                            PersonasDB.updateTablaPersonas(persona);
-                        }
-                        break;
                 }
             }
 
@@ -92,7 +81,7 @@ public class CtrlFrameConsultaMas implements ActionListener, TableModelListener 
 
     }
 
-    /*public TreeSet<Personas> consultaPersonas(String provinciaST, String tipoDeSangreST) {
+    public TreeSet<Personas> consultaPersonas(String provinciaST, String tipoDeSangreST) {
 
         TreeSet<Personas> personasAux = new TreeSet<Personas>();
 
@@ -112,7 +101,7 @@ public class CtrlFrameConsultaMas implements ActionListener, TableModelListener 
 
         for (Personas p : personasConPacientes) {
 
-            String tipo = p.getTipoSangre().getGrupo() + "RH" + p.getTipoSangre().getFactor();
+            String tipo = p.getTipoSangre().getGrupo() + p.getTipoSangre().getFactor();
             String prov = p.getLocalidad().getProvincia().getNombreProv();
 
             if (!provincia.equals("") && !tipoDeSangre.equals("")) {
@@ -131,5 +120,5 @@ public class CtrlFrameConsultaMas implements ActionListener, TableModelListener 
         }
 
         return personasAux;
-    }*/
+    }
 }
