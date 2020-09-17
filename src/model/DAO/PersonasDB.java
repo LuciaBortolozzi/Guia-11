@@ -4,7 +4,6 @@ import controller.Conexion;
 import controller.Controlador;
 import model.*;
 
-import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -161,13 +160,21 @@ public class PersonasDB {
                 tipoPersona = 0;
             }
 
-            // Arreglar (callable)
+            String fechaNac = persona.getFechaNac().get(Calendar.YEAR) + "-" + (persona.getFechaNac().get(Calendar.MONTH) + 1) + "-"
+                    + persona.getFechaNac().get(Calendar.DAY_OF_MONTH);
             Connection conn = Conexion.getConnection();
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate("INSERT INTO Personas VALUES (" + persona.getDni() + ",'" + persona.getNombre() + "','" + persona.getApellido()
-                    + "','" + persona.getSexo() + "','" + persona.getFechaNac().get(Calendar.YEAR) + "-" + (persona.getFechaNac().get(Calendar.MONTH) + 1) + "-"
-                    + persona.getFechaNac().get(Calendar.DAY_OF_MONTH) + "'," + persona.getLocalidad().getProvincia().getIdProvincia() + "," + persona.getLocalidad().getIdLocalidad() +
-                    "," + persona.getTipoSangre().getId() + "," + tipoPersona + ")");
+
+            CallableStatement stmt = conn.prepareCall("{call insertPersonas(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            stmt.setInt(1, persona.getDni());
+            stmt.setString(2, persona.getNombre());
+            stmt.setString(3, persona.getApellido());
+            stmt.setString(4, String.valueOf(persona.getSexo()));
+            stmt.setDate(5, Date.valueOf(fechaNac));
+            stmt.setInt(6, persona.getLocalidad().getProvincia().getIdProvincia());
+            stmt.setInt(7, persona.getLocalidad().getIdLocalidad());
+            stmt.setInt(8, persona.getTipoSangre().getId());
+            stmt.setInt(9, tipoPersona);
+            stmt.execute();
             conn.close();
 
 
@@ -178,7 +185,7 @@ public class PersonasDB {
             } else {
 
                 insertPacientes(persona);
-                insertMedicamentosPacientes(persona);
+                insertPacientesMedicamentos(persona);
             }
 
         } catch (SQLException e) {
@@ -186,54 +193,64 @@ public class PersonasDB {
         }
     }
 
-    public static void insertDonadores(Personas persona) throws SQLException {
+    public static void insertDonadores(Personas persona) {
 
         int donaSangre = 0;
-        int donaPlasma = 0;
         int donaPlaquetas = 0;
+        int donaPlasma = 0;
         if (((Donadores) persona).isDonaSangre()) {
             donaSangre = 1;
-        }
-        if (((Donadores) persona).isDonaPlasma()) {
-            donaPlasma = 1;
         }
         if (((Donadores) persona).isDonaPlaquetas()) {
             donaPlaquetas = 1;
         }
-
-        // Arreglar (callable)
-        Connection conn = Conexion.getConnection();
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate("INSERT INTO Donadores VALUES (" + persona.getDni() + "," + donaSangre + "," + donaPlasma
-                + "," + donaPlaquetas + ")");
-        conn.close();
-
-    }
-
-    public static void insertPacientes(Personas persona) throws SQLException {
-
-        // Arreglar (callable)
-        Connection conn = Conexion.getConnection();
-        Statement stmt = conn.createStatement();
-        stmt.executeUpdate("INSERT INTO Pacientes VALUES (" + persona.getDni() + ",'" + ((Pacientes) persona).getEnfermedad() + "','"
-                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.YEAR) + "-" + (((Pacientes) persona).getInicioTratamiento().get(Calendar.MONTH) + 1) + "-"
-                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.DAY_OF_MONTH) + "')");
-        conn.close();
-    }
-
-    public static void insertMedicamentosPacientes(Personas persona) {
+        if (((Donadores) persona).isDonaPlasma()) {
+            donaPlasma = 1;
+        }
 
         try {
-            // Arreglar (callable)
             Connection conn = Conexion.getConnection();
-            Statement stmt = conn.createStatement();
+            CallableStatement stmt = conn.prepareCall("{call insertDonadores(?, ?, ?, ?)}");
+            stmt.setInt(1, persona.getDni());
+            stmt.setInt(2, donaSangre);
+            stmt.setInt(3, donaPlaquetas);
+            stmt.setInt(4, donaPlasma);
+            stmt.execute();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertPacientes(Personas persona) {
+
+        String inicioTratamiento = ((Pacientes) persona).getInicioTratamiento().get(Calendar.YEAR) + "-" + (((Pacientes) persona).getInicioTratamiento().get(Calendar.MONTH) + 1) + "-"
+                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.DAY_OF_MONTH);
+        try {
+            Connection conn = Conexion.getConnection();
+            CallableStatement stmt = conn.prepareCall("{call insertPacientes(?, ?, ?)}");
+            stmt.setInt(1, persona.getDni());
+            stmt.setString(2, ((Pacientes) persona).getEnfermedad());
+            stmt.setDate(3, Date.valueOf(inicioTratamiento));
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertPacientesMedicamentos(Personas persona) {
+
+        try {
+
+            Connection conn = Conexion.getConnection();
+            CallableStatement stmt;
 
             if (persona instanceof Pacientes) {
 
                 for (Medicamentos med : ((Pacientes) persona).getMedicamentos()) {
-
-                    stmt.executeUpdate("INSERT INTO PacientesMedicamentos VALUES(" + persona.getDni() + "," + med.getIdMed() + ")");
-
+                    stmt = conn.prepareCall("{call insertPacientesMedicamentos(?, ?)}");
+                    stmt.setInt(1, persona.getDni());
+                    stmt.setInt(2, med.getIdMed());
                 }
             }
             conn.close();
@@ -259,7 +276,7 @@ public class PersonasDB {
             stmt.executeUpdate("UPDATE Personas SET nombre='" + persona.getNombre() + "', apellido='" + persona.getApellido()
                     + "', sexo='" + persona.getSexo() + "', fechaNac='" + persona.getFechaNac().get(Calendar.YEAR) + "-" + (persona.getFechaNac().get(Calendar.MONTH) + 1) + "-"
                     + persona.getFechaNac().get(Calendar.DAY_OF_MONTH) + "', provincia=" + persona.getLocalidad().getProvincia().getIdProvincia() + ", localidad=" + persona.getLocalidad().getIdLocalidad() +
-                    ", tipoSangre=" + persona.getTipoSangre().getId() + " WHERE dni=" + persona.getDni()+"");
+                    ", tipoSangre=" + persona.getTipoSangre().getId() + " WHERE dni=" + persona.getDni() + "");
 
             conn.close();
 
@@ -296,7 +313,7 @@ public class PersonasDB {
         Connection conn = Conexion.getConnection();
         Statement stmt = conn.createStatement();
         stmt.executeUpdate("UPDATE Donadores SET donaSangre=" + donaSangre + ", donaPlasma=" + donaPlasma
-                + ", donaPlaquetas=" + donaPlaquetas + " WHERE  dni=" + persona.getDni()+"");
+                + ", donaPlaquetas=" + donaPlaquetas + " WHERE  dni=" + persona.getDni() + "");
         conn.close();
     }
 
@@ -306,7 +323,7 @@ public class PersonasDB {
         Statement stmt = conn.createStatement();
         stmt.executeUpdate("UPDATE Pacientes SET enfermedad='" + ((Pacientes) persona).getEnfermedad() + "', inicioTratamiento='"
                 + ((Pacientes) persona).getInicioTratamiento().get(Calendar.YEAR) + "-" + (((Pacientes) persona).getInicioTratamiento().get(Calendar.MONTH) + 1) + "-"
-                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.DAY_OF_MONTH) + "' WHERE  dni=" + persona.getDni()+"");
+                + ((Pacientes) persona).getInicioTratamiento().get(Calendar.DAY_OF_MONTH) + "' WHERE  dni=" + persona.getDni() + "");
         conn.close();
     }
 
@@ -316,8 +333,8 @@ public class PersonasDB {
             Connection conn = Conexion.getConnection();
             Statement stmt = conn.createStatement();
 
-            stmt.executeUpdate("DELETE FROM PacientesMedicamentos WHERE dni=" + persona.getDni()+"");
-            insertMedicamentosPacientes(persona);
+            stmt.executeUpdate("DELETE FROM PacientesMedicamentos WHERE dni=" + persona.getDni() + "");
+            insertPacientesMedicamentos(persona);
 
             conn.close();
         } catch (SQLException e) {
@@ -329,21 +346,26 @@ public class PersonasDB {
 
         try {
             Connection conn = Conexion.getConnection();
-            Statement stmt = conn.createStatement();
+            CallableStatement stmt;
 
             if (persona instanceof Pacientes) {
 
-                stmt.executeUpdate("DELETE FROM PacientesMedicamentos WHERE dni=" + persona.getDni()+"");
-                stmt.executeUpdate("DELETE FROM Pacientes WHERE dni=" + persona.getDni()+"");
+                stmt = conn.prepareCall("{call deletePacientesMedicamentos(?)}");
+                stmt.setInt(1, persona.getDni());
+                stmt = conn.prepareCall("{call deletePacientes(?)}");
+                stmt.setInt(1, persona.getDni());
 
             } else {
 
-                stmt.executeUpdate("DELETE FROM Extracciones WHERE dniDonador=" + persona.getDni()+"");
-                stmt.executeUpdate("DELETE FROM Donadores WHERE dni=" + persona.getDni()+"");
+                stmt = conn.prepareCall("{call deleteExtracciones(?)}");
+                stmt.setInt(1, persona.getDni());
+                stmt = conn.prepareCall("{call deleteDonadores(?)}");
+                stmt.setInt(1, persona.getDni());
 
             }
 
-            stmt.executeUpdate("DELETE FROM Personas WHERE dni=" + persona.getDni()+"");
+            stmt = conn.prepareCall("{call deletePersonas(?)}");
+            stmt.setInt(1, persona.getDni());
             conn.close();
 
         } catch (SQLException e) {
