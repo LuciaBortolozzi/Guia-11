@@ -30,22 +30,11 @@ public class Controlador {
         return localidad;
     }
 
-    public static Localidades buscarLocalidad(int localidadID) {
-        Localidades localidad = null;
-
-        for (Localidades loc : localidades) {
-            if (loc.getIdLocalidad() == localidadID ) {
-                return loc;
-            }
-        }
-        return localidad;
-    }
-
     public static TiposSangre buscarTipoSangreST(String tipoSangreST) {
         TiposSangre tiposSangre = null;
 
         for (TiposSangre tipo : tiposSangres) {
-            String aux = tipo.getGrupo() + "-RH" + tipo.getFactor();
+            String aux = tipo.getGrupo() + "-" + tipo.getFactor();
             if (aux.equals(tipoSangreST)) {
                 return tipo;
             }
@@ -88,7 +77,7 @@ public class Controlador {
         ArrayList<String> tiposSangresST = new ArrayList<String>();
         tiposSangresST.add("Seleccione tipo de sangre");
         for (TiposSangre tipo : tiposSangres) {
-            tiposSangresST.add(tipo.getGrupo() + "-RH" + tipo.getFactor());
+            tiposSangresST.add(tipo.getGrupo() + "-" + tipo.getFactor());
         }
         return tiposSangresST;
     }
@@ -109,15 +98,6 @@ public class Controlador {
     }
 
     public static Provincias buscarProvincia(ArrayList<Provincias> provincias, int provincia) {
-        for (Provincias prov : provincias) {
-            if (prov.getIdProvincia() == provincia) {
-                return prov;
-            }
-        }
-        return null;
-    }
-
-    public static Provincias buscarProvincia(int provincia) {
         for (Provincias prov : provincias) {
             if (prov.getIdProvincia() == provincia) {
                 return prov;

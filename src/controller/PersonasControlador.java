@@ -202,6 +202,7 @@ public class PersonasControlador {
                 encontrada = true;
                 personaAux.setNombre(persona.getNombre());
                 personaAux.setApellido(persona.getApellido());
+                personaAux.setFechaNac(persona.getFechaNac());
                 personaAux.setTipoSangre(persona.getTipoSangre());
                 personaAux.setLocalidad(persona.getLocalidad());
                 personaAux.setSexo(persona.getSexo());
@@ -258,7 +259,7 @@ public class PersonasControlador {
                 + String.format("%02d", (persona.getFechaNac().get(Calendar.MONTH) + 1))
                 + String.format("%04d", (persona.getFechaNac().get(Calendar.YEAR)));
         vista.getTextFechaNac().setText(fechaNac);
-        vista.getComboTiposSangre().setSelectedItem(persona.getTipoSangre().getGrupo() + "-RH" + persona.getTipoSangre().getFactor());
+        vista.getComboTiposSangre().setSelectedItem(persona.getTipoSangre().getGrupo() + "-" + persona.getTipoSangre().getFactor());
         vista.getComboProvincias().setSelectedItem(persona.getLocalidad().getProvincia().getNombreProv());
         vista.getComboLocalidades().setSelectedItem(persona.getLocalidad().getNombreLoc());
 
