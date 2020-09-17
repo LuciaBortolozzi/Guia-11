@@ -32,11 +32,11 @@ public class FrameIngreso {
     private JPanel panelDonador = new JPanel();
     private JPanel panelDonador2 = new JPanel();
     private JPanel panelPaciente = new JPanel();
-    private JPanel panelUp= new JPanel();
-    private JPanel panelDown= new JPanel();
+    private JPanel panelUp = new JPanel();
+    private JPanel panelDown = new JPanel();
     private JPanel panelMedicina = new JPanel();
 
-    private JTextArea textArea = new JTextArea("Bienvenido al Banco de Sangre Fischer\n" +"Complete el formulario con los datos requeridos\n" + "Indique si la la persona es donador o paciente\n");
+    private JTextArea textArea = new JTextArea("Bienvenido al Banco de Sangre Fischer\n" + "Complete el formulario con los datos requeridos\n" + "Indique si la la persona es donador o paciente\n");
 
     private JLabel labelNombre = new JLabel("Nombre");
     private JLabel labelApellido = new JLabel("Apellido");
@@ -96,7 +96,7 @@ public class FrameIngreso {
         ventana.setIconImage(icon.getImage());
 
         ingreso = esIngreso;
-        if (esIngreso){
+        if (esIngreso) {
 
             ventana.setTitle("Ingreso de Personas");
             buttonEditar.setVisible(false);
@@ -148,11 +148,11 @@ public class FrameIngreso {
 
         textArea.setEditable(false);
         panelCabecera.add(textArea);
-        ventana.add(panelCabecera,BorderLayout.NORTH);
+        ventana.add(panelCabecera, BorderLayout.NORTH);
 
-        panelCenter.setLayout(new BoxLayout(panelCenter,BoxLayout.Y_AXIS));
-        panelUp.setLayout(new GridLayout(1,2));
-        panelNombre.setLayout(new GridLayout(2,1));
+        panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.Y_AXIS));
+        panelUp.setLayout(new GridLayout(1, 2));
+        panelNombre.setLayout(new GridLayout(2, 1));
         panelNombre.add(labelNombre);
         panelNombre.add(textNombre);
         panelCenterLeft.add(panelNombre);
@@ -164,7 +164,7 @@ public class FrameIngreso {
         panelSexo.add(radioButtonMasc);
         panelCenterRight.add(panelSexo);
 
-        panelApellido.setLayout(new GridLayout(2,1));
+        panelApellido.setLayout(new GridLayout(2, 1));
         panelApellido.add(labelApellido);
         panelApellido.add(textApellido);
         panelCenterLeft.add(panelApellido);
@@ -173,7 +173,7 @@ public class FrameIngreso {
         panelTipoSangre.add(comboTiposSangre);
         panelCenterRight.add(panelTipoSangre);
 
-        panelDNI.setLayout(new GridLayout(2,1));
+        panelDNI.setLayout(new GridLayout(2, 1));
         panelDNI.add(labelDNI);
         textDNI.setToolTipText("Sin puntos");
         panelDNI.add(textDNI);
@@ -183,7 +183,7 @@ public class FrameIngreso {
         panelProvincia.add(comboProvincias);
         panelCenterRight.add(panelProvincia);
 
-        panelNacimiento.setLayout(new GridLayout(2,1));
+        panelNacimiento.setLayout(new GridLayout(2, 1));
         panelNacimiento.add(labelFechaNac);
         textFechaNac.setToolTipText("DDMMYY");
         panelNacimiento.add(textFechaNac);
@@ -201,7 +201,7 @@ public class FrameIngreso {
         panelCenterLeft.add(panelPersona);
 
         // Donador
-        panelDonador.setLayout(new BoxLayout(panelDonador,BoxLayout.Y_AXIS));
+        panelDonador.setLayout(new BoxLayout(panelDonador, BoxLayout.Y_AXIS));
         panelDonador.add(labelDonacion);
         panelDonador.add(boxSangre);
         panelDonador.add(boxPlaquetas);
@@ -306,8 +306,8 @@ public class FrameIngreso {
         panelPie.add(buttonCancelar);
         panelPie.add(buttonEditar);
         panelPie.add(buttonAnular);
-        ventana.add(panelPie,BorderLayout.SOUTH);
-        ventana.add(panelCenter,BorderLayout.CENTER);
+        ventana.add(panelPie, BorderLayout.SOUTH);
+        ventana.add(panelCenter, BorderLayout.CENTER);
 
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);

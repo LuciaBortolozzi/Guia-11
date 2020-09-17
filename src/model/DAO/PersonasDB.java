@@ -232,6 +232,7 @@ public class PersonasDB {
             stmt.setInt(1, persona.getDni());
             stmt.setString(2, ((Pacientes) persona).getEnfermedad());
             stmt.setDate(3, Date.valueOf(inicioTratamiento));
+            stmt.execute();
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -251,6 +252,7 @@ public class PersonasDB {
                     stmt = conn.prepareCall("{call insertPacientesMedicamentos(?, ?)}");
                     stmt.setInt(1, persona.getDni());
                     stmt.setInt(2, med.getIdMed());
+                    stmt.execute();
                 }
             }
             conn.close();
@@ -350,22 +352,31 @@ public class PersonasDB {
 
             if (persona instanceof Pacientes) {
 
-                stmt = conn.prepareCall("{call deletePacientesMedicamentos(?)}");
-                stmt.setInt(1, persona.getDni());
+                if (!((Pacientes) persona).getMedicamentos().isEmpty()) {
+                    stmt = conn.prepareCall("{call deletePacientesMedicamentos(?)}");
+                    stmt.setInt(1, persona.getDni());
+                    stmt.execute();
+                }
                 stmt = conn.prepareCall("{call deletePacientes(?)}");
                 stmt.setInt(1, persona.getDni());
+                stmt.execute();
 
             } else {
 
-                stmt = conn.prepareCall("{call deleteExtracciones(?)}");
-                stmt.setInt(1, persona.getDni());
+                if (!((Donadores) persona).getExtracciones().isEmpty()) {
+                    stmt = conn.prepareCall("{call deleteExtracciones(?)}");
+                    stmt.setInt(1, persona.getDni());
+                    stmt.execute();
+                }
                 stmt = conn.prepareCall("{call deleteDonadores(?)}");
                 stmt.setInt(1, persona.getDni());
+                stmt.execute();
 
             }
 
             stmt = conn.prepareCall("{call deletePersonas(?)}");
             stmt.setInt(1, persona.getDni());
+            stmt.execute();
             conn.close();
 
         } catch (SQLException e) {
@@ -413,7 +424,7 @@ public class PersonasDB {
         }
     }
 
-    // Reemplazada por consumir de memoria en vez de db
+    // DEPRECATED - consumir tabla de memoria en vez de db
     /*public static DefaultTableModel selectConsultaMasiva(String provinciaST, String tipoDeSangreST) {
         DefaultTableModel dtm = new DefaultTableModel();
 
