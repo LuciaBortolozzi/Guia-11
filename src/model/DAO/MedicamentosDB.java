@@ -2,16 +2,12 @@ package model.DAO;
 
 import controller.Conexion;
 import model.Medicamentos;
-import model.Pacientes;
-import model.Personas;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
 
 public class MedicamentosDB {
 
