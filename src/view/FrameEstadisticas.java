@@ -21,11 +21,17 @@ public class FrameEstadisticas {
     private JLabel labelProvincia = new JLabel("En CABA:");
     private String[] columnas = {"DNI", "Nombre", "Apellido", "Tipo Sangre"};
     private DefaultTableModel tableModel = new DefaultTableModel();
-    private JTable tabla = new JTable(tableModel);
+    private JTable tabla = new JTable(tableModel)
+    {public boolean isCellEditable(int row,int column)
+        {return false;
+        }};
     private JScrollPane scrollPane = new JScrollPane(tabla);
     private String[] columnas2 = {"DNI", "Nombre", "Apellido", "Fecha Nacimiento"};
     private DefaultTableModel tableModel2 = new DefaultTableModel();
-    private JTable tabla2 = new JTable(tableModel2);
+    private JTable tabla2 = new JTable(tableModel2)
+    {public boolean isCellEditable(int row,int column)
+    {return false;
+    }};
     private JScrollPane scrollPane2 = new JScrollPane(tabla2);
     private JLabel labelCantidadTotExt = new JLabel("Cantidad total extraida (en ml)");
     private JTextField textCantidadTotExt = new JTextField(10);

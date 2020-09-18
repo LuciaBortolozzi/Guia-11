@@ -70,8 +70,9 @@ public class CtrlFrameConsultaMas implements ActionListener, TableModelListener 
                         PersonasDB.updateTablaPersonas(persona);
                         break;
 
-                    case 3:
-                        persona.setSexo(registro.charAt(0));
+                    case 5:
+                        char sexo = registro.charAt(0);
+                        persona.setSexo(sexo);
                         PersonasDB.updateTablaPersonas(persona);
                         break;
                 }
