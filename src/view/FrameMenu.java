@@ -54,7 +54,7 @@ public class FrameMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,
                         "Banco de Sangre\n" +
-                                "Versión 1.0 - 2020\n" +
+                                "Versión 2.0 - 2020\n" +
                                 "Schmidt y Bortolozzi", "Acerca de", JOptionPane.INFORMATION_MESSAGE);
             }
         });

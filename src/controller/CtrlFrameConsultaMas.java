@@ -1,7 +1,6 @@
 package controller;
 
 import model.DAO.PersonasDB;
-import model.Localidades;
 import model.Personas;
 import view.FrameConsultaMas;
 
@@ -13,7 +12,6 @@ import java.util.Calendar;
 import java.util.TreeSet;
 
 import static controller.Controlador.personasConPacientes;
-import static controller.Validaciones.convertirAFechaCalendar;
 
 public class CtrlFrameConsultaMas implements ActionListener, TableModelListener {
 

@@ -27,7 +27,7 @@ public class Conexion {
             server = "jdbc:sqlserver://DESKTOP-LU;databaseName=Programacion_Avanzada";
             user = "sa";
             password = "prog.av";
-        }else {
+        } else {
             server = "jdbc:sqlserver://DESKTOP-FLOR\\SQLEXPRESS:1433;databaseName=Programacion_Avanzada";
             user = "user";
             password = "1234";
